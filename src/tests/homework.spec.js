@@ -73,13 +73,13 @@ test('Lekce 3 - BreakOut room', async ({ page }) => {
 
 test('Homework - Lekce 3', async ({ page }) => {
 
+    await page.goto('https://team8-2022brno.herokuapp.com/registrace');
+
     const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
     const email = page.getByLabel('Email');
     const heslo = page.getByLabel('Heslo');
     const kontrolaHesla = page.getByLabel('Kontrola hesla');
     const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });
-
-    await page.goto('https://team8-2022brno.herokuapp.com/registrace');
 
     await jmenoPrijmeni.fill('Zuzana TESTER Šmídová');
     await email.fill('milujiTe@milujiTe.cz');
