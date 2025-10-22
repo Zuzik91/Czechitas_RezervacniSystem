@@ -87,3 +87,80 @@ test('Homework - Lekce 3', async ({ page }) => {
     await kontrolaHesla.fill('Heslo123');
     await tlacitkoZaregistrovat.click();
 });
+
+test('Lekce 4 - BreakOut room', async ({ page }) => {
+    await page.goto('https://team8-2022brno.herokuapp.com/registrace');
+    await expect(page).toHaveScreenshot();
+
+});
+
+test('Homework: validní registrace včetně asertace o úspěšném přihlášení - Lekce 4', async ({ page }) => {
+
+    const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
+    const email = page.getByLabel('Email');
+    const heslo = page.getByLabel('Heslo');
+    const kontrolaHesla = page.getByLabel('Kontrola hesla');
+    const kontrolaHeslaVcetneTextu = page.locator('xpath=//div[@class="form-group row"][4]');
+    const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });
+
+    const now = new Date().toISOString()
+    .replace(/[:.]/g, '-')
+    .replace('T', '_');
+    const emailValue = `${now}@milujiTe.cz`;
+
+    const loginValueElement = page.getByRole('button').filter({ has: page.locator('strong') });
+    const loginValue = 'Zuzana TESTER Šmídová';
+
+    await page.goto('https://team8-2022brno.herokuapp.com/registrace');
+
+    await expect(jmenoPrijmeni).toBeVisible();
+    await jmenoPrijmeni.fill(loginValue);
+    await expect(email).toBeEditable();
+    await email.fill(emailValue);
+    await expect(heslo).toBeEnabled();
+    await heslo.fill('Heslo123');
+    await expect(kontrolaHeslaVcetneTextu).toHaveText('Kontrola hesla');
+    await kontrolaHesla.fill('Heslo123');
+    await tlacitkoZaregistrovat.click();
+    await expect(loginValueElement).toContainText(loginValue.slice(0, 5));
+});
+
+test('Homework: registrace uživatele s již existujícím emailem - Lekce 4', async ({ page }) => {
+
+    const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
+    const email = page.getByLabel('Email');
+    const heslo = page.getByLabel('Heslo');
+    const kontrolaHesla = page.getByLabel('Kontrola hesla');
+    const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });
+
+    await page.goto('https://team8-2022brno.herokuapp.com/registrace');
+
+    await jmenoPrijmeni.fill('Zuzana TESTER Šmídová');
+    await expect.soft(jmenoPrijmeni).toContainText('Zuzana TESTER Šmídová');
+    await email.fill('milujiTe@milujiTe.cz');
+    await expect.soft(email).toHaveText(/^mi.*/, { timeout: 15000 });
+    await heslo.fill('Heslo123');
+    await expect.soft(heslo).toHaveText($123);
+    await kontrolaHesla.fill('Heslo123');
+    await expect.soft(tlacitkoZaregistrovat).toHaveText('Zaregistrovat');
+    await tlacitkoZaregistrovat.click();
+    await expect(page.getByText('Účet s tímto emailem již existuje')).toBeVisible();
+});
+
+test('Homework: registraci uživatele s nevalidním heslem - Lekce 4', async ({ page }) => {
+
+    const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
+    const email = page.getByLabel('Email');
+    const heslo = page.getByLabel('Heslo');
+    const kontrolaHesla = page.getByLabel('Kontrola hesla');
+    const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });
+
+    await page.goto('https://team8-2022brno.herokuapp.com/registrace');
+
+    await jmenoPrijmeni.fill('Zuzana TESTER Šmídová');
+    await email.fill('milujiTe@milujiTe.cz');
+    await heslo.fill('Heslo');
+    await kontrolaHesla.fill('Heslo');
+    await tlacitkoZaregistrovat.click();
+    await expect(page.getByText('Heslo musí obsahovat minimálně 6 znaků, velké i malé písmeno a číslici')).toBeVisible();
+});
