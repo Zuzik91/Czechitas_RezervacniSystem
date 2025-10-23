@@ -123,6 +123,7 @@ test('Homework: validní registrace včetně asertace o úspěšném přihláše
     await kontrolaHesla.fill('Heslo123');
     await tlacitkoZaregistrovat.click();
     await expect(loginValueElement).toContainText(loginValue.slice(0, 5));
+    await expect(page.getByText('Přihlásit', { exact: true })).not.toBeVisible();
 });
 
 test('Homework: registrace uživatele s již existujícím emailem - Lekce 4', async ({ page }) => {
@@ -136,11 +137,11 @@ test('Homework: registrace uživatele s již existujícím emailem - Lekce 4', a
     await page.goto('https://team8-2022brno.herokuapp.com/registrace');
 
     await jmenoPrijmeni.fill('Zuzana TESTER Šmídová');
-    await expect.soft(jmenoPrijmeni).toContainText('Zuzana TESTER Šmídová');
+    await expect.soft(jmenoPrijmeni).toHaveValue('Zuzana TESTER Šmídová');
     await email.fill('milujiTe@milujiTe.cz');
-    await expect.soft(email).toHaveText(/^mi.*/, { timeout: 15000 });
+    await expect.soft(email).toHaveValue(/^mi.*/, { timeout: 15000 });
     await heslo.fill('Heslo123');
-    await expect.soft(heslo).toHaveText($123);
+    await expect.soft(heslo).toHaveValue(/$123/);
     await kontrolaHesla.fill('Heslo123');
     await expect.soft(tlacitkoZaregistrovat).toHaveText('Zaregistrovat');
     await tlacitkoZaregistrovat.click();
@@ -159,8 +160,12 @@ test('Homework: registraci uživatele s nevalidním heslem - Lekce 4', async ({ 
 
     await jmenoPrijmeni.fill('Zuzana TESTER Šmídová');
     await email.fill('milujiTe@milujiTe.cz');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await heslo.fill('Heslo');
+    await expect(page.getByText('Přihlásit', { exact: true })).toBeEnabled();
     await kontrolaHesla.fill('Heslo');
+    await expect(page.getByAltText('Domů')).toBeVisible();
     await tlacitkoZaregistrovat.click();
+    await expect(email).not.toBeEmpty();
     await expect(page.getByText('Heslo musí obsahovat minimálně 6 znaků, velké i malé písmeno a číslici')).toBeVisible();
 });
