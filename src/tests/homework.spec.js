@@ -141,7 +141,7 @@ test('Homework: registrace uživatele s již existujícím emailem - Lekce 4', a
     await email.fill('milujiTe@milujiTe.cz');
     await expect.soft(email).toHaveValue(/^mi.*/, { timeout: 15000 });
     await heslo.fill('Heslo123');
-    await expect.soft(heslo).toHaveValue(/$123/);
+    await expect.soft(heslo).toHaveValue(/123/);
     await kontrolaHesla.fill('Heslo123');
     await expect.soft(tlacitkoZaregistrovat).toHaveText('Zaregistrovat');
     await tlacitkoZaregistrovat.click();
