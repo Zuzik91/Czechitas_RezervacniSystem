@@ -171,21 +171,14 @@ test('Homework: registraci uživatele s nevalidním heslem - Lekce 4', async ({ 
     await expect(page.getByText('Heslo musí obsahovat minimálně 6 znaků, velké i malé písmeno a číslici')).toBeVisible();
 });
 
-test.describe('Homework - Lekce 5', { tag: "@smoke" }, async ({ page }) => {
+test.describe('Homework - Lekce 5', { tag: "@smoke" }, () => {
 
     //Načtení url
     test.beforeEach(async ({ page }) => {
         await page.goto('https://team8-2022brno.herokuapp.com/registrace');
-
-        /*const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
-        const email = page.getByLabel('Email');
-        const heslo = page.getByLabel('Heslo');
-        const kontrolaHesla = page.getByLabel('Kontrola hesla');
-        const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });*/
-
     });
 
-    test('Registrace s nevalidním heslem', { tag: "negativ" }, async ({ page }) => {
+    test('Registrace s nevalidním heslem', { tag: "@negativ" }, async ({ page }) => {
         const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
         const email = page.getByLabel('Email');
         const heslo = page.getByLabel('Heslo');
@@ -204,14 +197,12 @@ test.describe('Homework - Lekce 5', { tag: "@smoke" }, async ({ page }) => {
         await expect(page.getByText('Heslo musí obsahovat minimálně 6 znaků, velké i malé písmeno a číslici')).toBeVisible();
     });
 
-    test('Registrace s již zaregistrovaným emailem', { tag: "negativ" }, async ({ page }) => {
+    test('Registrace s již zaregistrovaným emailem', { tag: "@negativ" }, async ({ page }) => {
         const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
         const email = page.getByLabel('Email');
         const heslo = page.getByLabel('Heslo');
         const kontrolaHesla = page.getByLabel('Kontrola hesla');
         const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });
-
-        await page.goto('https://team8-2022brno.herokuapp.com/registrace');
 
         await jmenoPrijmeni.fill('Zuzana TESTER Šmídová');
         await expect.soft(jmenoPrijmeni).toHaveValue('Zuzana TESTER Šmídová');
@@ -225,14 +216,15 @@ test.describe('Homework - Lekce 5', { tag: "@smoke" }, async ({ page }) => {
         await expect(page.getByText('Účet s tímto emailem již existuje')).toBeVisible();
     });
 
-    test.describe('Úspěšná registrace', () => {
+    test.describe('Úspěšná registrace', { tag: "@smoke" }, () => {
 
         //Odhlášení
-        /*test.afterEach(async ({ page }) => {
+        test.afterEach(async ({ page }) => {
+            await page.getByRole('button', {name: /^Zuzana/}).click();
+            await page.getByText('Odhlásit').click();
+        });
 
-        });*/
-
-        test('Homework: validní registrace včetně asertace o úspěšném přihlášení - Lekce 4', { tag: "happy path" }, async ({ page }) => {
+        test('Homework: validní registrace včetně asertace o úspěšném přihlášení - Lekce 4', { tag: "@happy path" }, async ({ page }) => {
 
             const jmenoPrijmeni = page.getByLabel('Jméno a příjmení');
             const email = page.getByLabel('Email');
@@ -248,8 +240,6 @@ test.describe('Homework - Lekce 5', { tag: "@smoke" }, async ({ page }) => {
 
             const loginValueElement = page.getByRole('button').filter({ has: page.locator('strong') });
             const loginValue = 'Zuzana TESTER Šmídová';
-
-            await page.goto('https://team8-2022brno.herokuapp.com/registrace');
 
             await expect(jmenoPrijmeni).toBeVisible();
             await jmenoPrijmeni.fill(loginValue);
