@@ -324,7 +324,7 @@ test.describe('Homework - Lekce 6', { tag: "@smoke" }, () => {
         await expect.soft(email).toHaveValue(/^mi.*/, { timeout: 15000 });
         await heslo.fill(USER_PASSWORD+123);
         await expect.soft(heslo).toHaveValue(/123/);
-        await kontrolaHesla.fill(USER_EMAIL+123);
+        await kontrolaHesla.fill(USER_PASSWORD+123);
         await expect.soft(tlacitkoZaregistrovat).toHaveText('Zaregistrovat');
         await tlacitkoZaregistrovat.click();
         await expect(page.getByText('Účet s tímto emailem již existuje')).toBeVisible();
