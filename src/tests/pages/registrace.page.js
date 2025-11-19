@@ -5,8 +5,7 @@ export class Registrace extends Login {
     //konstruktor třídy
     constructor(page) {
         this.page = page;
-        const login = new Login(page);
-        super(page);
+        super this.const login = new Login(page);
         this.jmenoPrijmeni = this.page.getByLabel('Jméno a příjmení');
         this.email = this.page.getByLabel('Email');
         this.heslo = this.page.getByLabel('Heslo');
