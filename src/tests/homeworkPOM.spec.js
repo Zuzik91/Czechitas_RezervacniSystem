@@ -11,10 +11,8 @@ test.describe('Homework - Lekce 7', { tag: "@smoke" }, () => {
     //Načtení url
     test.beforeEach(async ({ page }) => {
         const registrace = new Registrace(page);
-        const login = new Login(page);
-
-        await login.otevrit();
-        await login.zaregistrujSe();
+        await registrace.otevrit();
+        await registrace.zaregistrujSe();
     });
 
     test('Registrace s nevalidním heslem', { tag: "@negativ" }, async ({ page }) => {

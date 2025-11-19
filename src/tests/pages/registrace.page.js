@@ -22,7 +22,7 @@ export class Registrace extends Login {
     }
 
     //metody třídy
-    async otevrit() {
+    async otevritRegistraci() {
         await this.page.goto('https://team8-2022brno.herokuapp.com/registrace');
     }
 
