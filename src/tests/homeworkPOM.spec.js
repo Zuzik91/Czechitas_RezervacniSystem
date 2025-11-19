@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { afterEach, beforeEach } from 'node:test';
-import { Registrace } from '../tests/Pages/registrace.page.js';
+import { Registrace } from '../tests/pages/registrace.page.js';
 
 require('dotenv').config();
 
@@ -11,8 +11,10 @@ test.describe('Homework - Lekce 7', { tag: "@smoke" }, () => {
     //Načtení url
     test.beforeEach(async ({ page }) => {
         const registrace = new Registrace(page);
+        const login = new Login(page);
 
-        await registrace.otevrit();
+        await login.otevrit();
+        await login.zaregistrujSe();
     });
 
     test('Registrace s nevalidním heslem', { tag: "@negativ" }, async ({ page }) => {

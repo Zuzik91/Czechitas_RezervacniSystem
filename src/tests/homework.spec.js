@@ -298,9 +298,14 @@ test.describe('Homework - Lekce 6', { tag: "@smoke" }, () => {
     test('Registrace s nevalidním heslem', { tag: "@negativ" }, async ({ page }) => {
         const email = page.getByLabel('Email');
         const tlacitkoZaregistrovat = page.getByRole('button', { name: 'Zaregistrovat' });
+        /*const now = new Date().toISOString()
+            .replace(/[:.]/g, '-')
+            .replace('T', '_');
+        const emailValue = `${now}@milujiTe.cz`;*/
 
         await vyplnJmeno(page);
         await vyplnEmail(page);
+        //await email.fill(emailValue);
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
         await vyplnHeslo(page);
         await expect(page.getByText('Přihlásit', { exact: true })).toBeEnabled();
