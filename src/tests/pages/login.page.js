@@ -3,8 +3,9 @@ export class Login {
     //konstruktor třídy
     constructor(page) {
         this.page = page;
-        this.prihlasit = this.page.getByLabel('Přihlásit');
-        this.tlacitkoZaregistrovat = this.page.getByRole('button', { name: 'Přihlásit' });
+        this.prihlasit = this.page.locator('xpath=//body//a[contains(., "Přihlásit")]');
+        this.tlacitkoZaregistrovat = this.page.locator('xpath=//body//a[contains(., "Zaregistrujte se")]');
+        this.nadpisPrihlaseni = this.page.getByRole('heading', { name: 'Přihlášení' });
     }
 
     //metody třídy
@@ -14,6 +15,7 @@ export class Login {
 
     async zaregistrujSe() {
         await this.prihlasit.click();
+        await this.nadpisPrihlaseni.waitFor({ state: 'visible' });
         await this.tlacitkoZaregistrovat.click();
     }
 }
