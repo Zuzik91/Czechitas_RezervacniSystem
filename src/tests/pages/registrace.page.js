@@ -49,4 +49,13 @@ export class Registrace extends Login {
         await this.userRegistr.click();
         await this.tlacitkoOdhlasit.click();
     }
+
+    async login(name, email, heslo) {
+        await this.jmenoPrijmeni.fill(name);
+        await this.email.fill(email);
+        await this.heslo.fill(heslo);
+        await this.kontrolaHesla.fill(heslo);
+        await this.tlacitkoZaregistrovat.click();
+    }
+
 }
